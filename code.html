@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>String Operations</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        input[type="text"] {
+            font-size: 1.2em;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            text-transform: uppercase;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 0.5em 1em;
+            margin-bottom: 1em;
+        
+    </style>
+    <div id="output" style="font-size: 36px;"></div>
+</head>
+<body>
+
+<input type="text" id="inputString">
+<button onclick="a(document.getElementById('inputString').value)">Afficher</button>
+
+<p id="output"></p>
+
+<script>
+
+function a(b) {
+    let c = "";
+    
+    let d = b.charAt(2*1);
+    let e = b.charAt(2+3);
+    let f = parseInt(b.charAt(2*2) + b.charAt(1+2));
+    let g = parseInt(b.charAt(2*3+1) + b.charAt(2*3));
+    
+    if (d.toUpperCase() < 'L') {
+        f += 3 * 4;
+    } else {
+        f += 23 * 4;
+    }
+    
+    if (e.toUpperCase() < 'L') {
+        g += 3 * 4;
+    } else {
+        g += 23 * 4;
+    }
+    
+    c = "Code is : " + f + g;
+    
+    document.getElementById("output").innerHTML = c;
+}
+</script>
+
+</body>
+</html>
