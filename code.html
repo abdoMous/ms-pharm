@@ -37,13 +37,13 @@ function a(b) {
     let f = parseInt(b.charAt(2*2) + b.charAt(1+2));
     let g = parseInt(b.charAt(2*3+1) + b.charAt(2*3));
     
-    if (d.toUpperCase() < 'L') {
+    if (d.toUpperCase().charCodeAt(0) < 76) {
         f += 3 * 4;
     } else {
         f += 23 * 4;
     }
     
-    if (e.toUpperCase() < 'L') {
+    if (e.toUpperCase().charCodeAt(0) < 76) {
         g += 3 * 4;
     } else {
         g += 23 * 4;
