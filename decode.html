@@ -1,59 +1,302 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" data-theme="light">
 <head>
-    <title>String Operations</title>
-    <style>
-        body {
-            text-align: center;
-        }
-        input[type="text"] {
-            font-size: 1.2em;
-            padding: 0.5em;
-            margin-bottom: 1em;
-            text-transform: uppercase;
-        }
-        button {
-            font-size: 1.2em;
-            padding: 0.5em 1em;
-            margin-bottom: 1em;
-        
-    </style>
-    <div id="output" style="font-size: 36px;"></div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accès Sécurisé | Décodeur MS-PHARM</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: radial-gradient(circle at center, rgba(2, 132, 199, 0.08) 0%, var(--bg-main) 70%);
+      padding: 20px;
+    }
+
+    .auth-wrapper {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .auth-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+      position: relative;
+    }
+
+    .auth-lock-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2);
+    }
+
+    [data-theme="dark"] .auth-lock-icon {
+      background: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+    }
+
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .auth-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .auth-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--bg-card-subtle);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      color: var(--text-main);
+      text-align: center;
+      outline: none;
+      transition: all var(--transition-fast);
+      letter-spacing: 2px;
+    }
+
+    .auth-input:focus {
+      border-color: var(--primary);
+      background: var(--bg-card);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+      margin-top: -6px;
+    }
+
+    /* Decoder Interface Once Unlocked */
+    #decoderTool {
+      display: none;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-top: 24px;
+      text-decoration: none;
+    }
+
+    .back-home:hover {
+      color: var(--primary);
+    }
+  </style>
 </head>
+
 <body>
 
-<input type="text" id="inputString">
-<button onclick="a(document.getElementById('inputString').value)">Afficher</button>
+  <!-- ========================================================================
+       Locked Screen
+       ======================================================================== -->
+  <div class="auth-wrapper" id="lockScreen">
+    <div class="auth-card">
+      <div class="auth-lock-icon">
+        <i class="fa-solid fa-lock"></i>
+      </div>
 
-<p id="output"></p>
+      <h1 class="auth-title">Accès Protégé</h1>
+      <p class="auth-subtitle">Veuillez saisir le code secret pour accéder à cet outil de maintenance.</p>
 
-<script>
+      <form id="authForm" onsubmit="event.preventDefault(); checkAuth();">
+        <div class="auth-input-group">
+          <input type="password" id="secretCodeInput" class="auth-input" placeholder="••••••••" autofocus autocomplete="current-password" />
+          <div id="authError" class="error-msg">
+            <i class="fa-solid fa-circle-exclamation"></i> Code secret incorrect.
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+            <i class="fa-solid fa-key"></i> Déverrouiller l'accès
+          </button>
+        </div>
+      </form>
 
-function a(b) {
-    let c = "";
-    
-    let d = b.charAt(2*1);
-    let e = b.charAt(2+3);
-    let f = parseInt(b.charAt(2*2) + b.charAt(1+2));
-    let g = parseInt(b.charAt(2*3+1) + b.charAt(2*3));
-    
-    if (d.toUpperCase().charCodeAt(0) < 76) {
+      <a href="index.html" class="back-home">
+        <i class="fa-solid fa-arrow-left"></i> Retour au site principal
+      </a>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       Unlocked Decoder Tool
+       ======================================================================== -->
+  <div id="decoderTool">
+    <div class="auth-card" style="text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="auth-lock-icon" style="margin: 0; width: 46px; height: 46px; font-size: 1.2rem; background: var(--accent-light); color: var(--accent);">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h2 style="font-size: 1.3rem;">Outil Décodeur</h2>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Moussaoui Services Informatique</span>
+          </div>
+        </div>
+        <button onclick="lockAgain()" class="btn btn-outline btn-sm" title="Verrouiller">
+          <i class="fa-solid fa-lock"></i> Verrouiller
+        </button>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label for="inputString" class="form-label" style="margin-bottom: 8px; display: block; font-weight: 700;">
+          <i class="fa-solid fa-barcode"></i> Chaîne de référence :
+        </label>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="inputString" class="auth-input" style="text-align: left; text-transform: uppercase; font-family: monospace; font-size: 1.1rem; font-weight: bold; flex: 1;" placeholder="Ex: PHARM123456" maxlength="24" />
+          <button onclick="calculateCode()" class="btn btn-primary">
+            <i class="fa-solid fa-calculator"></i> Afficher
+          </button>
+        </div>
+      </div>
+
+      <div class="decoder-output-box" id="outputBox" style="margin-bottom: 20px;">
+        <div class="result-placeholder">
+          Entrez la chaîne et cliquez sur <strong>Afficher</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <a href="index.html" class="back-home" style="margin: 0;">
+          <i class="fa-solid fa-house"></i> Retour à l'accueil
+        </a>
+        <button id="copyBtn" class="copy-btn" style="display: none;" onclick="copyResult()">
+          <i class="fa-regular fa-copy"></i> Copier le code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SECRET_CODE = "msi123456";
+
+    function checkAuth() {
+      const input = document.getElementById("secretCodeInput").value.trim();
+      const errorEl = document.getElementById("authError");
+
+      if (input === SECRET_CODE) {
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("decoderTool").style.display = "block";
+        errorEl.style.display = "none";
+        document.getElementById("inputString").focus();
+      } else {
+        errorEl.style.display = "block";
+        document.getElementById("secretCodeInput").select();
+      }
+    }
+
+    function lockAgain() {
+      document.getElementById("decoderTool").style.display = "none";
+      document.getElementById("lockScreen").style.display = "block";
+      document.getElementById("secretCodeInput").value = "";
+      document.getElementById("secretCodeInput").focus();
+    }
+
+    let lastResult = "";
+
+    function calculateCode() {
+      const b = document.getElementById("inputString").value.trim();
+      const outputEl = document.getElementById("outputBox");
+      const copyBtn = document.getElementById("copyBtn");
+
+      if (b.length < 8) {
+        outputEl.innerHTML = '<span style="color: #ef4444; font-size: 0.9rem;"><i class="fa-solid fa-circle-exclamation"></i> La chaîne doit comporter au moins 8 caractères.</span>';
+        outputEl.classList.remove("has-result");
+        copyBtn.style.display = "none";
+        return;
+      }
+
+      let d = b.charAt(2 * 1);
+      let e = b.charAt(2 + 3);
+      let f = parseInt(b.charAt(2 * 2) + b.charAt(1 + 2), 10);
+      let g = parseInt(b.charAt(2 * 3 + 1) + b.charAt(2 * 3), 10);
+
+      if (isNaN(f) || isNaN(g)) {
+        outputEl.innerHTML = '<span style="color: #ef4444; font-size: 0.9rem;"><i class="fa-solid fa-circle-exclamation"></i> Format de chaîne invalide.</span>';
+        outputEl.classList.remove("has-result");
+        copyBtn.style.display = "none";
+        return;
+      }
+
+      if (d.toUpperCase().charCodeAt(0) < 76) {
         f += 3 * 4;
-    } else {
+      } else {
         f += 23 * 4;
-    }
-    
-    if (e.toUpperCase().charCodeAt(0) < 76) {
+      }
+
+      if (e.toUpperCase().charCodeAt(0) < 76) {
         g += 3 * 4;
-    } else {
+      } else {
         g += 23 * 4;
+      }
+
+      lastResult = `${f}${g}`;
+      outputEl.innerHTML = `
+        <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; display: block; margin-bottom: 4px;">Code Calculé</span>
+        <div class="result-value" style="font-size: 1.8rem;">Code is : ${lastResult}</div>
+      `;
+      outputEl.classList.add("has-result");
+      copyBtn.style.display = "inline-flex";
     }
-    
-    c = "Code is : " + f + g;
-    
-    document.getElementById("output").innerHTML = c;
-}
-</script>
+
+    function copyResult() {
+      if (lastResult) {
+        navigator.clipboard.writeText(lastResult).then(() => {
+          alert("Code copié : " + lastResult);
+        });
+      }
+    }
+
+    document.getElementById("inputString")?.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") calculateCode();
+    });
+  </script>
 
 </body>
 </html>
