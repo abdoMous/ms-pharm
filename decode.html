@@ -214,13 +214,23 @@
   </div>
 
   <script>
-    const SECRET_CODE = "msi123456";
+    // Empreinte chiffrée SHA-256 de la clé secrète
+    const HASHED_KEY = "7f1d49243ee662770bbdff7da2cec54eb382cd9d76dfa7b049a620ec457db57b";
 
-    function checkAuth() {
+    async function sha256(str) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf))
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("");
+    }
+
+    async function checkAuth() {
       const input = document.getElementById("secretCodeInput").value.trim();
       const errorEl = document.getElementById("authError");
 
-      if (input === SECRET_CODE) {
+      const inputHash = await sha256(input);
+
+      if (inputHash === HASHED_KEY) {
         document.getElementById("lockScreen").style.display = "none";
         document.getElementById("decoderTool").style.display = "block";
         errorEl.style.display = "none";
