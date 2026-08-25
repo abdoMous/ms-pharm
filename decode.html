@@ -3,56 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accès Sécurisé | Décodeur MS-PHARM</title>
+  <title>Accès Sécurisé | Outil Décodeur MS-PHARM</title>
   <meta name="robots" content="noindex, nofollow" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Main Stylesheet -->
+  <!-- Base Styling -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <style>
     body {
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      background: radial-gradient(circle at center, rgba(2, 132, 199, 0.08) 0%, var(--bg-main) 70%);
-      padding: 20px;
-    }
-
-    .auth-wrapper {
-      width: 100%;
-      max-width: 480px;
+      background: radial-gradient(circle at 50% 20%, rgba(2, 132, 199, 0.12) 0%, var(--bg-main) 70%);
+      padding: 24px;
     }
 
     .auth-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 40px 32px;
       box-shadow: var(--shadow-xl);
+      padding: 40px 36px;
+      max-width: 480px;
+      width: 100%;
       text-align: center;
-      position: relative;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .auth-lock-icon {
       width: 64px;
       height: 64px;
-      border-radius: 50%;
+      border-radius: 20px;
       background: var(--primary-light);
       color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       margin: 0 auto 20px;
       box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2);
     }
@@ -62,22 +63,9 @@
       color: #38bdf8;
     }
 
-    .auth-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .auth-subtitle {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-
     .auth-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      margin: 24px 0 16px;
+      position: relative;
     }
 
     .auth-input {
@@ -86,33 +74,82 @@
       background: var(--bg-card-subtle);
       border: 2px solid var(--border-color);
       border-radius: var(--radius-md);
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: var(--text-main);
-      text-align: center;
       outline: none;
-      transition: all var(--transition-fast);
+      text-align: center;
       letter-spacing: 2px;
+      transition: all var(--transition-fast);
     }
 
     .auth-input:focus {
       border-color: var(--primary);
       background: var(--bg-card);
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+      box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
     }
 
     .error-msg {
       color: #ef4444;
       font-size: 0.85rem;
       font-weight: 600;
+      margin-top: 8px;
       display: none;
-      margin-top: -6px;
     }
 
-    /* Decoder Interface Once Unlocked */
+    /* Decoder Tool Interface (Hidden by default) */
     #decoderTool {
       display: none;
       width: 100%;
-      max-width: 600px;
+      max-width: 520px;
+    }
+
+    .decoder-output-box {
+      background: var(--bg-card-subtle);
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px 18px;
+      text-align: center;
+      margin-top: 20px;
+      transition: all var(--transition-fast);
+    }
+
+    .decoder-output-box.has-result {
+      background: rgba(16, 185, 129, 0.08);
+      border: 2px solid var(--accent);
+    }
+
+    .result-placeholder {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .result-value {
+      font-family: monospace;
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 3px;
+    }
+
+    .copy-btn {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      margin-top: 10px;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary);
+      color: white;
     }
 
     .back-home {
@@ -120,10 +157,10 @@
       align-items: center;
       gap: 6px;
       color: var(--text-muted);
-      font-size: 0.88rem;
-      font-weight: 600;
-      margin-top: 24px;
+      font-size: 0.85rem;
+      margin-top: 20px;
       text-decoration: none;
+      transition: color var(--transition-fast);
     }
 
     .back-home:hover {
@@ -135,33 +172,32 @@
 <body>
 
   <!-- ========================================================================
-       Locked Screen
+       Password Protection Screen
        ======================================================================== -->
-  <div class="auth-wrapper" id="lockScreen">
-    <div class="auth-card">
-      <div class="auth-lock-icon">
-        <i class="fa-solid fa-lock"></i>
-      </div>
-
-      <h1 class="auth-title">Accès Protégé</h1>
-      <p class="auth-subtitle">Veuillez saisir le code secret pour accéder à cet outil de maintenance.</p>
-
-      <form id="authForm" onsubmit="event.preventDefault(); checkAuth();">
-        <div class="auth-input-group">
-          <input type="password" id="secretCodeInput" class="auth-input" placeholder="••••••••" autofocus autocomplete="current-password" />
-          <div id="authError" class="error-msg">
-            <i class="fa-solid fa-circle-exclamation"></i> Code secret incorrect.
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
-            <i class="fa-solid fa-key"></i> Déverrouiller l'accès
-          </button>
-        </div>
-      </form>
-
-      <a href="index.html" class="back-home">
-        <i class="fa-solid fa-arrow-left"></i> Retour au site principal
-      </a>
+  <div id="lockScreen" class="auth-card">
+    <div class="auth-lock-icon">
+      <i class="fa-solid fa-lock"></i>
     </div>
+    <h1 style="font-size: 1.5rem; margin-bottom: 8px;">Accès Restreint</h1>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">
+      Veuillez entrer le code d'accès administrateur pour déverrouiller l'outil.
+    </p>
+
+    <form onsubmit="event.preventDefault(); checkAuth();">
+      <div class="auth-input-group">
+        <input type="password" id="secretCodeInput" class="auth-input" placeholder="••••••••" autofocus autocomplete="current-password" />
+        <div id="authError" class="error-msg">
+          <i class="fa-solid fa-circle-exclamation"></i> Code secret incorrect.
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+        <i class="fa-solid fa-key"></i> Déverrouiller l'accès
+      </button>
+    </form>
+
+    <a href="index.html" class="back-home">
+      <i class="fa-solid fa-arrow-left"></i> Retour au site principal
+    </a>
   </div>
 
   <!-- ========================================================================
@@ -214,23 +250,61 @@
   </div>
 
   <script>
-    // Empreinte chiffrée SHA-256 de la clé secrète
-    const HASHED_KEY = "7f1d49243ee662770bbdff7da2cec54eb382cd9d76dfa7b049a620ec457db57b";
+    // ==========================================================================
+    // AES-256-GCM Encrypted Decoder Engine (Protected by password 'msi')
+    // ==========================================================================
+    const _SALT = Uint8Array.from(atob("bXNwaGFybS1kZWNvZGVyLXNhbHQtMjAyNg=="), c => c.charCodeAt(0));
+    const _IV = Uint8Array.from(atob("MTJieXRlc2l2MTIz"), c => c.charCodeAt(0));
+    const _CIPHER = Uint8Array.from(atob("jM7QGx3wxxtPevqt6bTpgoJtmRrDnIHTTycC5oLqGIhT25xau1/I6DWwl73pxrJJyWnVo1PMWDbzNdEykPHoEAD79Bpqf7HZbBh6puon9kiwbOKyTVzCmuBRRU6tOxLBaqJbRZv49QmnnqDe+ikX+YsFFMFMXr6zBCCp2YrEfBs2wvt3TYPIXbDMNxo4OrOZWsAP2hidGf3VGym9vs2+z5ACJSyJyXdMmUdY/PZ5F8H32enbpPWQd+dQ0xHymVqO0NSXQxLPOHU9iiDsjZOafidWw6/mEAQcqJtRFxjZJV9qTkTaF/k9FvxGM/BX+7DWNNaDmhwTd+eSPMgiYM/bUsmag37vtaUb5trL9vZTPsMYmh3WxomOAHBnHHRIlZ4SOpYo+Ly9nDlWYbMmqFLTk6xdHhuNDuRRDoErvdVNQnpNMVI4HxXIVFL9NCOhuxW7OWNwb5yMydS7epSl8T0iap/Nb8VadSslKRO7LfkIW/CouNt0CasAzLE9zWL533ffkAlWxJHN3NWsnsZNe/2pUZnu2EP5oy+fPy55tRfr6XaTvps="), c => c.charCodeAt(0));
 
-    async function sha256(str) {
-      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf))
-        .map(b => b.toString(16).padStart(2, "0"))
-        .join("");
+    let _execDecoder = null;
+    let lastResult = "";
+
+    async function decryptAlgorithm(pass) {
+      try {
+        const enc = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey(
+          "raw",
+          enc.encode(pass),
+          "PBKDF2",
+          false,
+          ["deriveKey"]
+        );
+
+        const key = await crypto.subtle.deriveKey(
+          {
+            name: "PBKDF2",
+            salt: _SALT,
+            iterations: 100000,
+            hash: "SHA-256"
+          },
+          keyMaterial,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["decrypt"]
+        );
+
+        const decrypted = await crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: _IV },
+          key,
+          _CIPHER
+        );
+
+        const codeStr = new TextDecoder().decode(decrypted);
+        return new Function("str", codeStr);
+      } catch (e) {
+        return null;
+      }
     }
 
     async function checkAuth() {
       const input = document.getElementById("secretCodeInput").value.trim();
       const errorEl = document.getElementById("authError");
 
-      const inputHash = await sha256(input);
+      const decoderFn = await decryptAlgorithm(input);
 
-      if (inputHash === HASHED_KEY) {
+      if (decoderFn) {
+        _execDecoder = decoderFn;
         document.getElementById("lockScreen").style.display = "none";
         document.getElementById("decoderTool").style.display = "block";
         errorEl.style.display = "none";
@@ -242,51 +316,40 @@
     }
 
     function lockAgain() {
+      _execDecoder = null;
       document.getElementById("decoderTool").style.display = "none";
       document.getElementById("lockScreen").style.display = "block";
       document.getElementById("secretCodeInput").value = "";
       document.getElementById("secretCodeInput").focus();
     }
 
-    let lastResult = "";
-
     function calculateCode() {
-      const b = document.getElementById("inputString").value.trim();
       const outputEl = document.getElementById("outputBox");
       const copyBtn = document.getElementById("copyBtn");
+      const inputVal = document.getElementById("inputString").value.trim();
 
-      if (b.length < 8) {
+      if (!_execDecoder) {
+        outputEl.innerHTML = '<span style="color: #ef4444; font-size: 0.9rem;"><i class="fa-solid fa-triangle-exclamation"></i> Session verrouillée.</span>';
+        return;
+      }
+
+      if (inputVal.length < 8) {
         outputEl.innerHTML = '<span style="color: #ef4444; font-size: 0.9rem;"><i class="fa-solid fa-circle-exclamation"></i> La chaîne doit comporter au moins 8 caractères.</span>';
         outputEl.classList.remove("has-result");
         copyBtn.style.display = "none";
         return;
       }
 
-      let d = b.charAt(2 * 1);
-      let e = b.charAt(2 + 3);
-      let f = parseInt(b.charAt(2 * 2) + b.charAt(1 + 2), 10);
-      let g = parseInt(b.charAt(2 * 3 + 1) + b.charAt(2 * 3), 10);
+      const res = _execDecoder(inputVal);
 
-      if (isNaN(f) || isNaN(g)) {
+      if (!res) {
         outputEl.innerHTML = '<span style="color: #ef4444; font-size: 0.9rem;"><i class="fa-solid fa-circle-exclamation"></i> Format de chaîne invalide.</span>';
         outputEl.classList.remove("has-result");
         copyBtn.style.display = "none";
         return;
       }
 
-      if (d.toUpperCase().charCodeAt(0) < 76) {
-        f += 3 * 4;
-      } else {
-        f += 23 * 4;
-      }
-
-      if (e.toUpperCase().charCodeAt(0) < 76) {
-        g += 3 * 4;
-      } else {
-        g += 23 * 4;
-      }
-
-      lastResult = `${f}${g}`;
+      lastResult = res;
       outputEl.innerHTML = `
         <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; display: block; margin-bottom: 4px;">Code Calculé</span>
         <div class="result-value" style="font-size: 1.8rem;">Code is : ${lastResult}</div>
