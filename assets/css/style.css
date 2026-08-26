@@ -165,6 +165,16 @@ img {
   color: #ffffff;
 }
 
+.secret-decode-btn {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  cursor: default;
+  margin: 0 -10px;
+  user-select: none;
+}
+
 /* ==========================================================================
    Header & Sticky Navigation
    ========================================================================== */
