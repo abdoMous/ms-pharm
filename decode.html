@@ -166,6 +166,41 @@
     .back-home:hover {
       color: var(--primary);
     }
+
+    /* Bottom Toast Notification Popup */
+    .toast-bottom-popup {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      opacity: 0;
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 14px 22px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      z-index: 99999;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast-bottom-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast-bottom-popup i {
+      color: var(--accent);
+      font-size: 1.25rem;
+    }
   </style>
 </head>
 
@@ -361,11 +396,66 @@
       copyBtn.style.display = "inline-flex";
     }
 
+    function showBottomToast(msg) {
+      let toast = document.getElementById("bottomToast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "bottomToast";
+        toast.className = "toast-bottom-popup";
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${msg}</span>`;
+      toast.classList.add("show");
+
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3500);
+    }
+
+    function fallbackCopy(text, callback) {
+      const tempInput = document.createElement("textarea");
+      tempInput.value = text;
+      tempInput.style.position = "fixed";
+      tempInput.style.left = "-9999px";
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand("copy");
+        if (callback) callback();
+      } catch (err) {
+        console.error("Erreur copie :", err);
+      }
+      document.body.removeChild(tempInput);
+    }
+
     function copyResult() {
-      if (lastResult) {
-        navigator.clipboard.writeText(lastResult).then(() => {
-          alert("Code copié : " + lastResult);
+      if (!lastResult) return;
+
+      const onCopied = () => {
+        showBottomToast(`Code copié : <strong>${lastResult}</strong>`);
+        const copyBtn = document.getElementById("copyBtn");
+        if (copyBtn) {
+          const origHtml = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copié !';
+          copyBtn.style.background = 'var(--accent)';
+          copyBtn.style.color = '#fff';
+          copyBtn.style.borderColor = 'var(--accent)';
+          setTimeout(() => {
+            copyBtn.innerHTML = origHtml;
+            copyBtn.style.background = '';
+            copyBtn.style.color = '';
+            copyBtn.style.borderColor = '';
+          }, 2000);
+        }
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(lastResult).then(onCopied).catch(() => {
+          fallbackCopy(lastResult, onCopied);
         });
+      } else {
+        fallbackCopy(lastResult, onCopied);
       }
     }
 
