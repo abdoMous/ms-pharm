@@ -556,7 +556,7 @@ img {
 }
 
 /* ==========================================================================
-   Core Software Cards (MS-Pharm, My-Stock, MS-Medic)
+   Core Software Cards (MS-Pharm, My-Stock, MS-Medic / Laboratoire)
    ========================================================================== */
 .software-grid {
   display: grid;
@@ -628,7 +628,8 @@ img {
   background: linear-gradient(135deg, #10b981, #059669);
 }
 
-.icon-medic {
+.icon-medic,
+.icon-labo {
   background: linear-gradient(135deg, #6366f1, #4f46e5);
 }
 
