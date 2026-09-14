@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initDownloadToasts();
   initSmoothScroll();
   initFooterYear();
+  initAiModuleTabs();
+  initMobileAppsPlacement();
 });
 
 function checkDecodeShortcut() {
@@ -268,16 +270,21 @@ function initSearchAndFilters() {
    Download Toast Notifications
    ========================================================================== */
 function initDownloadToasts() {
-  const downloadLinks = document.querySelectorAll('a[download], a[href$=".exe"], a[href$=".EXE"], a[href$=".rar"], a[href$=".zip"], a[href$=".msi"]');
+  const downloadLinks = document.querySelectorAll('a[download], a[href$=".exe"], a[href$=".EXE"], a[href$=".rar"], a[href$=".zip"], a[href$=".msi"], a[href*=".apk"], a[href*=".APK"]');
 
   downloadLinks.forEach(link => {
     link.addEventListener('click', () => {
-      const cardTitle = link.closest('.software-card, .remote-card, .utility-card')?.querySelector('h3, h4, .remote-title')?.textContent.trim() || 'Fichier';
+      const cardTitle = link.closest('.software-card, .remote-card, .utility-card, .mobile-app-card')?.querySelector('h3, h4, .remote-title, .mobile-app-title')?.textContent.trim() || 'Fichier';
       const isMaj = link.textContent.includes('Mise à Jour') || link.textContent.includes('MAJ');
+      const isApk = link.href.toLowerCase().includes('.apk');
       
+      const toastMessage = isApk 
+        ? `Le téléchargement de l'application Android ${cardTitle} démarre...` 
+        : `Le téléchargement de ${cardTitle} ${isMaj ? '(Mise à jour)' : ''} démarre...`;
+
       showToast(
-        'Téléchargement initié', 
-        `Le téléchargement de ${cardTitle} ${isMaj ? '(Mise à jour)' : ''} démarre...`, 
+        isApk ? 'Téléchargement APK initié' : 'Téléchargement initié', 
+        toastMessage, 
         'success'
       );
     });
@@ -324,3 +331,184 @@ function showToast(title, message, type = 'info') {
     }, 400);
   }, 4000);
 }
+
+/* ==========================================================================
+   Interactive AI Module Showcase (Tabs, Window Mockup & Lightbox)
+   ========================================================================== */
+function initAiModuleTabs() {
+  const tabs = document.querySelectorAll('.ai-screen-tab');
+  const thumbs = document.querySelectorAll('.ai-thumb-btn');
+  const panels = document.querySelectorAll('.ai-tab-panel');
+  const previewImg = document.getElementById('aiMainPreviewImg');
+  const windowTitle = document.getElementById('aiWindowTitle');
+  const viewportBadge = document.getElementById('aiViewportBadge');
+  const viewport = document.getElementById('aiWindowViewport');
+  const openLightboxBtn = document.getElementById('openImageLightboxBtn');
+  const lightbox = document.getElementById('aiImageLightbox');
+  const lightboxImg = document.getElementById('aiLightboxImg');
+  const lightboxCaption = document.getElementById('aiLightboxCaption');
+  const lightboxTitle = document.getElementById('aiLightboxTitle');
+  const lightboxClose = document.getElementById('aiLightboxClose');
+  const lightboxBackdrop = document.getElementById('aiLightboxBackdrop');
+
+  if (!tabs.length && !thumbs.length) return;
+
+  const screens = {
+    dashboard: {
+      img: 'assets/images/api-scan-dashboard.png',
+      alt: 'Tableau de bord MS-PHARM API & SCAN IA',
+      windowTitle: 'MS-PHARM API & IA — Dashboard Principal & Supervision',
+      badge: '<i class="fa-solid fa-desktop"></i> Écran 1 / 3 : Dashboard & Paramètres Actifs',
+      caption: 'Tableau de bord principal : Suivi en temps réel des bases Access (.MDB), statut Serveur Port 5001, sauvegardes VSS et liaisons Cloud.'
+    },
+    admin: {
+      img: 'assets/images/api-scan-admin.png',
+      alt: 'Administration & Configuration IA Gemini',
+      windowTitle: 'MS-PHARM API & IA — Administration & Scan Factures Gemini',
+      badge: '<i class="fa-solid fa-sliders"></i> Écran 2 / 3 : Scan IA & Configuration',
+      caption: 'Panneau d\'administration : Clé Google Gemini (Google AI Studio) pour l\'OCR factures, répertoire données et appairage smartphone Firebase.'
+    },
+    backups: {
+      img: 'assets/images/api-scan-backups.png',
+      alt: 'Gestion des Sauvegardes VSS et Google Drive',
+      windowTitle: 'Sauvegardes, Cliché Instantané (VSS) & Google Drive - MS-PHARM',
+      badge: '<i class="fa-solid fa-cloud-arrow-up"></i> Écran 3 / 3 : Sauvegardes VSS & Google Drive',
+      caption: 'Gestionnaire de sauvegardes : Sauvegarde à chaud (Shadow Copy VSS) sans interruption d\'officine, rétention 50 copies et synchronisation Google Drive OAuth 2.0.'
+    }
+  };
+
+  let currentTabKey = 'dashboard';
+
+  function switchTab(tabKey) {
+    if (!screens[tabKey]) return;
+    currentTabKey = tabKey;
+    const data = screens[tabKey];
+
+    // Update screen tabs
+    tabs.forEach(t => {
+      const isActive = t.getAttribute('data-tab') === tabKey;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    // Update thumbnails
+    thumbs.forEach(tb => {
+      tb.classList.toggle('active', tb.getAttribute('data-tab') === tabKey);
+    });
+
+    // Update panels
+    panels.forEach(p => {
+      p.classList.toggle('active', p.id === `tab-panel-${tabKey}`);
+    });
+
+    // Animate preview image
+    if (previewImg) {
+      previewImg.style.opacity = '0';
+      setTimeout(() => {
+        previewImg.src = data.img;
+        previewImg.alt = data.alt;
+        previewImg.style.opacity = '1';
+      }, 150);
+    }
+
+    if (windowTitle) {
+      windowTitle.textContent = data.windowTitle;
+    }
+
+    if (viewportBadge) {
+      viewportBadge.innerHTML = data.badge;
+    }
+  }
+
+  // Click on screen tabs
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabKey = tab.getAttribute('data-tab');
+      switchTab(tabKey);
+    });
+  });
+
+  // Click on thumbnails
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const tabKey = thumb.getAttribute('data-tab');
+      switchTab(tabKey);
+    });
+  });
+
+  // Lightbox functions
+  function openLightbox() {
+    if (!lightbox || !lightboxImg) return;
+    const data = screens[currentTabKey];
+    lightboxImg.src = data.img;
+    lightboxImg.alt = data.alt;
+    if (lightboxCaption) lightboxCaption.textContent = data.caption;
+    if (lightboxTitle) lightboxTitle.innerHTML = `<i class="fa-solid fa-feather-pointed"></i> ${data.windowTitle}`;
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (viewport) {
+    viewport.addEventListener('click', openLightbox);
+  }
+
+  if (openLightboxBtn) {
+    openLightboxBtn.addEventListener('click', openLightbox);
+  }
+
+  if (lightboxClose) {
+    lightboxClose.addEventListener('click', closeLightbox);
+  }
+
+  if (lightboxBackdrop) {
+    lightboxBackdrop.addEventListener('click', closeLightbox);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+}
+
+/* ==========================================================================
+   Mobile Apps Smart Placement (Top of page on smartphone, below AI frame on PC)
+   ========================================================================== */
+function initMobileAppsPlacement() {
+  const container = document.getElementById('mobileAppsContainer');
+  const anchorTop = document.getElementById('mobileAppsAnchorTop');
+  const anchorBottom = document.getElementById('mobileAppsAnchorBottom');
+
+  if (!container || !anchorTop || !anchorBottom) return;
+
+  function updatePosition() {
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isSmallScreen = window.innerWidth <= 768;
+    const shouldBeAtTop = isMobileDevice || isSmallScreen;
+
+    if (shouldBeAtTop) {
+      if (anchorTop.nextElementSibling !== container) {
+        anchorTop.parentNode.insertBefore(container, anchorTop.nextSibling);
+        container.classList.add('mobile-mode-top');
+      }
+    } else {
+      if (anchorBottom.nextElementSibling !== container) {
+        anchorBottom.parentNode.insertBefore(container, anchorBottom.nextSibling);
+        container.classList.remove('mobile-mode-top');
+      }
+    }
+  }
+
+  updatePosition();
+  window.addEventListener('resize', updatePosition);
+}
+
+

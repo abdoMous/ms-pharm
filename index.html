@@ -28,154 +28,58 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Main Stylesheet (with cache buster) -->
-  <link rel="stylesheet" href="assets/css/style.css?v=2.2" />
+  <link rel="stylesheet" href="assets/css/style.css?v=3.0" />
 
-  <!-- Critical Styles for AI Spotlight Banner (Guarantees instant styling regardless of CDN/browser cache) -->
+  <!-- Critical styles for immediate symmetrical mobile mockup rendering -->
   <style>
-    .ai-spotlight-banner {
-      margin-top: 48px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(2, 132, 199, 0.08) 50%, rgba(16, 185, 129, 0.08) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      border-radius: var(--radius-lg, 20px);
-      padding: 36px 40px;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 36px;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 12px 32px -8px rgba(99, 102, 241, 0.15);
+    .mobile-apps-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 24px;
+      align-items: stretch;
     }
-    [data-theme="dark"] .ai-spotlight-banner {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(2, 132, 199, 0.14) 50%, rgba(16, 185, 129, 0.12) 100%);
-      border-color: rgba(99, 102, 241, 0.4);
-      box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.5);
+    .mobile-phone-frame {
+      width: 85px !important;
+      height: 155px !important;
+      max-width: 85px !important;
+      max-height: 155px !important;
+      overflow: hidden !important;
+      margin: 0 auto !important;
     }
-    .ai-spotlight-banner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #6366f1, #0284c7, #10b981);
-    }
-    .ai-spotlight-content {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .ai-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(2, 132, 199, 0.15));
-      color: #6366f1;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      font-weight: 700;
-      font-size: 0.82rem;
-      padding: 6px 14px;
-      border-radius: 9999px;
-      align-self: flex-start;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    [data-theme="dark"] .ai-badge {
-      color: #a5b4fc;
-      border-color: rgba(165, 180, 252, 0.3);
-    }
-    .ai-spotlight-title {
-      font-size: 1.85rem;
-      font-weight: 800;
-      line-height: 1.25;
-    }
-    .ai-spotlight-title .gradient-ai-text {
-      background: linear-gradient(135deg, #6366f1, #0284c7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .ai-spotlight-desc {
-      font-size: 0.98rem;
-      color: var(--text-muted, #64748b);
-      line-height: 1.6;
-    }
-    .ai-features-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 6px 0 12px;
-      padding-left: 0;
-    }
-    .ai-features-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      color: var(--text-main, #0f172a);
-      font-weight: 500;
-    }
-    .ai-features-list li i {
-      color: #6366f1;
-      font-size: 1rem;
-    }
-    .ai-spotlight-actions {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    .btn-ai {
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
-      color: #ffffff !important;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-    }
-    .btn-ai:hover {
-      background: linear-gradient(135deg, #4f46e5, #4338ca);
-      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55);
-      transform: translateY(-2px);
-    }
-    .ai-spotlight-preview {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .ai-preview-frame {
-      border-radius: var(--radius-md, 14px);
-      overflow: hidden;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      transition: transform 0.3s ease;
-      background: #0f172a;
-    }
-    [data-theme="dark"] .ai-preview-frame {
-      border-color: rgba(99, 102, 241, 0.3);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-    }
-    .ai-preview-frame:hover {
-      transform: scale(1.02);
-    }
-    .ai-preview-img {
-      width: 100%;
-      max-width: 440px;
-      height: auto;
-      display: block;
+    .mobile-preview-img {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 85px !important;
+      max-height: 155px !important;
+      object-fit: cover !important;
+      display: block !important;
     }
     @media (max-width: 768px) {
-      .ai-spotlight-banner {
-        grid-template-columns: 1fr;
-        padding: 28px 20px;
-        margin-top: 32px;
+      .mobile-apps-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
       }
-      .ai-preview-img {
-        max-width: 100%;
+      .mobile-phone-frame {
+        width: 80px !important;
+        height: 145px !important;
+        max-width: 80px !important;
+        max-height: 145px !important;
+      }
+      .mobile-preview-img {
+        max-width: 80px !important;
+        max-height: 145px !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .mobile-phone-frame {
+        width: 75px !important;
+        height: 135px !important;
+        max-width: 75px !important;
+        max-height: 135px !important;
+      }
+      .mobile-preview-img {
+        max-width: 75px !important;
+        max-height: 135px !important;
       }
     }
   </style>
@@ -260,6 +164,9 @@
   </header>
 
   <main>
+    <!-- Anchor for dynamic mobile placement (Smartphone View) -->
+    <div id="mobileAppsAnchorTop" class="container"></div>
+
     <!-- ========================================================================
          Hero Section (Clean & Centered)
          ======================================================================== -->
@@ -453,35 +360,397 @@
 
         </div>
 
-        <!-- Showcase Banner: MY-STOCK API & SCAN IA -->
-        <div class="ai-spotlight-banner">
-          <div class="ai-spotlight-content">
-            <div class="ai-badge">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Nouveau Module IA
-            </div>
-            <h3 class="ai-spotlight-title">
-              MY-STOCK <span class="gradient-ai-text">API & SCAN IA</span>
-            </h3>
-            <p class="ai-spotlight-desc">
-              Accélérez la saisie de vos achats avec le nouveau moteur d'intelligence artificielle <strong>Google Gemini</strong> connecté en direct à votre base de données Access (.MDB).
-            </p>
-            <ul class="ai-features-list">
-              <li><i class="fa-solid fa-circle-check"></i> Numérisation et reconnaissance automatique des factures avec IA Gemini</li>
-              <li><i class="fa-solid fa-circle-check"></i> Connexion native aux bases de données Access (.MDB) via serveur API local (Port 5001)</li>
-              <li><i class="fa-solid fa-circle-check"></i> Démarrage automatique en arrière-plan configurable au lancement de Windows</li>
-            </ul>
-            <div class="ai-spotlight-actions">
-              <a href="https://firebasestorage.googleapis.com/v0/b/mspharm-28a52.appspot.com/o/Setup_MYSTOCK_API.exe?alt=media" class="btn btn-ai btn-lg" download>
-                <i class="fa-solid fa-download"></i> Télécharger Setup_MYSTOCK_API.exe
-              </a>
-              <span class="utility-date" data-file-key="Setup_MYSTOCK_API.exe" style="font-weight: 600; font-size: 0.85rem;">
-                <i class="fa-regular fa-calendar"></i> 06/09/2026
+        <!-- ================================================================
+             Nouveau Module IA : MY-STOCK & MS-PHARM API & SCAN IA
+             ================================================================ -->
+        <div class="ai-spotlight-banner" id="module-ia">
+          <!-- Top glowing header badge and title -->
+          <div class="ai-spotlight-top">
+            <div class="ai-badge-group">
+              <span class="ai-badge">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Nouveau Module IA & Connectivité Cloud
               </span>
+              <span class="ai-version-pill">Version 2026</span>
+            </div>
+
+            <h3 class="ai-spotlight-title">
+              MY-STOCK & MS-PHARM <span class="gradient-ai-text">API & SCAN IA</span>
+            </h3>
+            
+            <p class="ai-spotlight-subtitle">
+              Gestionnaire local Access (.MDB), Moteur IA Google Gemini & Sauvegardes à chaud VSS
+            </p>
+
+            <!-- Real-time Status Pills mirroring the software -->
+            <div class="ai-live-pills">
+              <div class="live-pill">
+                <span class="status-indicator status-online"></span>
+                <strong>Serveur API :</strong> EN COURS (Port 5001)
+              </div>
+              <div class="live-pill">
+                <i class="fa-solid fa-brain" style="color: #a855f7;"></i>
+                <strong>Moteur IA :</strong> Google Gemini Vision OCR
+              </div>
+              <div class="live-pill">
+                <i class="fa-solid fa-shield-halved" style="color: #06b6d4;"></i>
+                <strong>Sauvegardes :</strong> Cliché Instantané (VSS)
+              </div>
+              <div class="live-pill">
+                <i class="fa-solid fa-cloud" style="color: #10b981;"></i>
+                <strong>Cloud :</strong> Firebase & Google Drive OAuth 2.0
+              </div>
             </div>
           </div>
-          <div class="ai-spotlight-preview">
-            <div class="ai-preview-frame">
-              <img src="assets/images/mystock-api-scan.png" alt="Interface MY-STOCK API & SCAN IA" class="ai-preview-img" />
+
+          <!-- Main Interactive 2-Column Section -->
+          <div class="ai-spotlight-main">
+            <!-- Left: Interactive Tab Controls & Feature Details -->
+            <div class="ai-spotlight-content">
+              <p class="ai-spotlight-desc">
+                Accélérez la saisie de vos achats avec l'intelligence artificielle <strong>Google Gemini</strong>, connectez vos bases Access (.MDB) via API REST locale haute performance et sécurisez vos données avec la sauvegarde à chaud VSS synchronisée sur Google Drive.
+              </p>
+
+              <!-- Screen Selection Tabs -->
+              <div class="ai-screen-tabs" role="tablist" aria-label="Écrans de l'application">
+                <button type="button" class="ai-screen-tab active" data-tab="dashboard" role="tab" aria-selected="true">
+                  <i class="fa-solid fa-gauge-high"></i>
+                  <span>1. Dashboard & API</span>
+                </button>
+                <button type="button" class="ai-screen-tab" data-tab="admin" role="tab" aria-selected="false">
+                  <i class="fa-solid fa-sliders"></i>
+                  <span>2. Scan IA & Config</span>
+                </button>
+                <button type="button" class="ai-screen-tab" data-tab="backups" role="tab" aria-selected="false">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>3. Sauvegardes VSS</span>
+                </button>
+              </div>
+
+              <!-- Tab Content Panels -->
+              <div class="ai-tab-panels">
+                <!-- Panel 1: Dashboard -->
+                <div class="ai-tab-panel active" id="tab-panel-dashboard">
+                  <div class="ai-panel-header">
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                    <strong>Tableau de Bord & Supervision en Direct</strong>
+                  </div>
+                  <ul class="ai-features-list">
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Bases Access (.MDB) :</strong> Détection automatique du répertoire (ex: <code>E:\MS-PHARM\DATA</code>) avec détection active des bases prêtes pour l'API.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Contrôle Serveur Local :</strong> Démarrer, Arrêter ou Redémarrer le service local sur le <strong>Port 5001</strong> en un clic.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Démarrage Windows :</strong> Lancement automatique en arrière-plan configurable dès l'allumage du PC hôte.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Multi-connectivité :</strong> Accès direct via IP locale (Wi-Fi), 4G et adresse web <code>http://localhost:5001</code>.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Panel 2: Admin & Scan IA -->
+                <div class="ai-tab-panel" id="tab-panel-admin">
+                  <div class="ai-panel-header">
+                    <i class="fa-solid fa-wand-magic-sparkles text-ai"></i>
+                    <strong>Scan Factures IA Gemini & Appairage Smartphone</strong>
+                  </div>
+                  <ul class="ai-features-list">
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>OCR Intelligent Google Gemini :</strong> Numérisation instantanée des factures d'achat et extraction des articles, TVA et montants.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Clé Google AI Studio :</strong> Intégration directe de votre clé API avec test de validation immédiat en un clic.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Liaison Smartphone Firebase :</strong> Connexion cloud avec vérification directe pour synchroniser l'application mobile.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Sécurité Renforcée :</strong> Verrouillage par mot de passe administrateur pour protéger la configuration officine.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Panel 3: Sauvegardes VSS & Google Drive -->
+                <div class="ai-tab-panel" id="tab-panel-backups">
+                  <div class="ai-panel-header">
+                    <i class="fa-solid fa-shield-halved text-cyan"></i>
+                    <strong>Sauvegardes à Chaud VSS & Synchronisation Cloud</strong>
+                  </div>
+                  <ul class="ai-features-list">
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Cliché Instantané (Shadow Copy VSS) :</strong> Sauvegarde sans interruption ni verrouillage des bases Access en cours d'utilisation.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Planification Automatique :</strong> Archivage temporisé en arrière-plan (ex: toutes les 15 min) au format compressé .ZIP.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Purge Intelligente :</strong> Rétention paramétrable (ex: 50 copies max) avec purge automatique des plus anciennes archives.</span>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-check"></i>
+                      <span><strong>Google Drive OAuth 2.0 :</strong> Synchronisation automatique et chiffrée vers le dossier cloud <code>'Sauvegardes_MSPHARM'</code>.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Action CTAs -->
+              <div class="ai-spotlight-actions">
+                <a href="https://firebasestorage.googleapis.com/v0/b/mspharm-28a52.appspot.com/o/Setup_MYSTOCK_API.exe?alt=media" class="btn btn-ai btn-lg" download>
+                  <i class="fa-solid fa-download"></i> Télécharger Setup_MYSTOCK_API.exe
+                </a>
+                <span class="utility-date" data-file-key="Setup_MYSTOCK_API.exe" style="font-weight: 600; font-size: 0.85rem;">
+                  <i class="fa-regular fa-calendar"></i> 06/09/2026
+                </span>
+                <button type="button" class="btn btn-outline btn-sm ai-fullscreen-trigger" id="openImageLightboxBtn" title="Inspecter les captures d'écran réelles">
+                  <i class="fa-solid fa-up-right-and-down-left-from-center"></i> Agrandir les captures
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Realistic Software Window Frame with Interactive Screenshot -->
+            <div class="ai-spotlight-preview">
+              <div class="ai-app-window">
+                <!-- Windows-like Titlebar -->
+                <div class="ai-window-titlebar">
+                  <div class="ai-window-branding">
+                    <i class="fa-solid fa-feather-pointed ai-window-icon"></i>
+                    <span class="ai-window-title-text" id="aiWindowTitle">MS-PHARM API & IA — Dashboard Principal & Supervision</span>
+                  </div>
+                  <div class="ai-window-controls">
+                    <span class="win-btn win-min">―</span>
+                    <span class="win-btn win-max">◻</span>
+                    <span class="win-btn win-close">✕</span>
+                  </div>
+                </div>
+
+                <!-- Window Content / Active Screenshot -->
+                <div class="ai-window-viewport" id="aiWindowViewport" title="Cliquer pour agrandir la capture d'écran">
+                  <img src="assets/images/api-scan-dashboard.png" 
+                       alt="Tableau de bord MS-PHARM API & SCAN IA" 
+                       id="aiMainPreviewImg" 
+                       class="ai-preview-img-active" />
+                  
+                  <div class="ai-viewport-overlay">
+                    <span class="ai-viewport-badge" id="aiViewportBadge">
+                      <i class="fa-solid fa-desktop"></i> Écran 1 / 3 : Dashboard & Paramètres Actifs
+                    </span>
+                    <span class="ai-click-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoomer</span>
+                  </div>
+                </div>
+
+                <!-- Window Footer Thumbnails Selector -->
+                <div class="ai-window-thumbnails">
+                  <button type="button" class="ai-thumb-btn active" data-tab="dashboard" title="Afficher le Dashboard">
+                    <img src="assets/images/api-scan-dashboard.png" alt="Miniature Dashboard" />
+                    <span>Dashboard</span>
+                  </button>
+                  <button type="button" class="ai-thumb-btn" data-tab="admin" title="Afficher l'Administration & IA Gemini">
+                    <img src="assets/images/api-scan-admin.png" alt="Miniature Administration IA" />
+                    <span>Scan IA & Admin</span>
+                  </button>
+                  <button type="button" class="ai-thumb-btn" data-tab="backups" title="Afficher les Sauvegardes VSS & Google Drive">
+                    <img src="assets/images/api-scan-backups.png" alt="Miniature Sauvegardes VSS" />
+                    <span>Sauvegardes VSS</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom 4 Pillars Grid -->
+          <div class="ai-pillars-grid">
+            <div class="ai-pillar-card">
+              <div class="pillar-icon pillar-ai">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <h4>Scan Factures IA Gemini</h4>
+              <p>Reconnaissance optique (OCR) des factures d'achat. Détection instantanée des articles, TVA et montants pour intégration sans saisie manuelle.</p>
+              <div class="pillar-tags">
+                <span>Google AI Studio</span>
+                <span>Vision OCR</span>
+                <span>Zéro Saisie</span>
+              </div>
+            </div>
+
+            <div class="ai-pillar-card">
+              <div class="pillar-icon pillar-api">
+                <i class="fa-solid fa-server"></i>
+              </div>
+              <h4>Serveur API Local (Port 5001)</h4>
+              <p>Passerelle REST haute vitesse connectée directement aux bases Access (.MDB). Service en arrière-plan lancé automatiquement avec Windows.</p>
+              <div class="pillar-tags">
+                <span>Port 5001</span>
+                <span>Bases .MDB</span>
+                <span>Accès Réseau</span>
+              </div>
+            </div>
+
+            <div class="ai-pillar-card">
+              <div class="pillar-icon pillar-vss">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h4>Cliché Instantané (VSS)</h4>
+              <p>Archivage à chaud par Shadow Copy VSS sans verrouiller ni couper l'activité des caisses. Rétention automatique de 50 sauvegardes .ZIP.</p>
+              <div class="pillar-tags">
+                <span>Shadow Copy VSS</span>
+                <span>Toutes les 15 min</span>
+                <span>Purge Auto</span>
+              </div>
+            </div>
+
+            <div class="ai-pillar-card">
+              <div class="pillar-icon pillar-cloud">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <h4>Google Drive & Firebase</h4>
+              <p>Synchronisation cloud sécurisée via OAuth 2.0 dans 'Sauvegardes_MSPHARM' et appairage direct de l'application mobile en Wi-Fi & 4G.</p>
+              <div class="pillar-tags">
+                <span>OAuth 2.0</span>
+                <span>Sauvegardes_MSPHARM</span>
+                <span>App Smartphone</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anchor for desktop placement -->
+        <div id="mobileAppsAnchorBottom"></div>
+
+        <!-- ================================================================
+             Applications Mobiles Android : MS-PHARM & MY-STOCK
+             ================================================================ -->
+        <div class="mobile-apps-section" id="mobileAppsContainer">
+          <div class="mobile-apps-header">
+            <div class="mobile-badge">
+              <i class="fa-brands fa-android"></i> Applications Mobiles Officielles
+            </div>
+            <h3 class="mobile-section-title">
+              MY-STOCK & MS-PHARM <span class="gradient-text">sur Smartphone Android</span>
+            </h3>
+            <p class="mobile-section-subtitle">
+              Connectez votre gestion commerciale et votre officine à votre smartphone. Synchronisation en direct avec votre base de données locale.
+            </p>
+            <div class="mobile-smart-notice" id="mobileSmartNotice">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <span><strong>Accès Smartphone Détecté :</strong> Téléchargez directement les applications Android (.APK) ci-dessous pour les installer sur votre appareil.</span>
+            </div>
+          </div>
+
+          <div class="mobile-apps-grid">
+            <!-- Card 1: MY-STOCK Mobile (Gauche sur PC, Haut sur Smartphone) -->
+            <div class="mobile-app-card">
+              <div class="mobile-card-header">
+                <div class="mobile-app-tag tag-stock">
+                  <i class="fa-solid fa-boxes-stacked"></i> Gestion Commerciale & Stock
+                </div>
+                <h4 class="mobile-app-title">MY-STOCK Mobile</h4>
+              </div>
+
+              <div class="mobile-phone-wrapper">
+                <div class="mobile-phone-frame">
+                  <div class="phone-frame-notch"></div>
+                  <img src="assets/images/app-mobile-mystock.png" 
+                       alt="Application Mobile MY-STOCK" 
+                       class="mobile-preview-img" 
+                       width="85" 
+                       height="150" 
+                       style="max-width: 85px; max-height: 150px; width: 100%; height: 100%; object-fit: cover; display: block;" />
+                </div>
+              </div>
+
+              <div class="mobile-card-body">
+                <p class="mobile-app-desc">
+                  Gestion commerciale en temps réel : lecteur code-barres par caméra, suivi des stocks, inventaire et alertes ruptures instantanées.
+                </p>
+                <ul class="mobile-features-list">
+                  <li><i class="fa-solid fa-circle-check"></i> Scan Code-Barres caméra</li>
+                  <li><i class="fa-solid fa-circle-check"></i> Alertes ruptures de stock</li>
+                  <li><i class="fa-solid fa-circle-check"></i> Marchandises & Top clients</li>
+                </ul>
+              </div>
+
+              <div class="mobile-card-footer">
+                <div class="update-meta-box mobile-meta-box">
+                  <div class="meta-row">
+                    <span class="meta-label"><i class="fa-brands fa-android"></i> Type :</span>
+                    <span class="meta-value">Android (.APK)</span>
+                  </div>
+                  <div class="meta-row">
+                    <span class="meta-label"><i class="fa-solid fa-arrows-rotate"></i> MAJ :</span>
+                    <span class="meta-value" data-file-key="MY-STOCK.apk" style="color: var(--accent-hover);">14/09/2026</span>
+                  </div>
+                </div>
+                <a href="https://firebasestorage.googleapis.com/v0/b/mspharm-28a52.appspot.com/o/MY-STOCK.apk?alt=media" 
+                   class="btn btn-accent btn-mobile-dl" 
+                   download="MY-STOCK.apk">
+                  <i class="fa-solid fa-download"></i> Télécharger MY-STOCK.apk
+                </a>
+              </div>
+            </div>
+
+            <!-- Card 2: MS-PHARM Mobile (Droite sur PC, Bas sur Smartphone) -->
+            <div class="mobile-app-card">
+              <div class="mobile-card-header">
+                <div class="mobile-app-tag tag-pharm">
+                  <i class="fa-solid fa-prescription-bottle-medical"></i> Pharmacie & Officine
+                </div>
+                <h4 class="mobile-app-title">MS-PHARM Mobile</h4>
+              </div>
+
+              <div class="mobile-phone-wrapper">
+                <div class="mobile-phone-frame">
+                  <div class="phone-frame-notch"></div>
+                  <img src="assets/images/app-mobile-mspharm.png" 
+                       alt="Application Mobile MS-PHARM" 
+                       class="mobile-preview-img" 
+                       width="85" 
+                       height="150" 
+                       style="max-width: 85px; max-height: 150px; width: 100%; height: 100%; object-fit: cover; display: block;" />
+                </div>
+              </div>
+
+              <div class="mobile-card-body">
+                <p class="mobile-app-desc">
+                  Gestion d'officine en mobilité : consultation des stocks, contrôle des ordonnances, liaison serveur local et alertes périmés.
+                </p>
+                <ul class="mobile-features-list">
+                  <li><i class="fa-solid fa-circle-check"></i> Serveur local (Port 5001)</li>
+                  <li><i class="fa-solid fa-circle-check"></i> Cloud Firebase sécurisé</li>
+                  <li><i class="fa-solid fa-circle-check"></i> Stocks & alertes périmés</li>
+                </ul>
+              </div>
+
+              <div class="mobile-card-footer">
+                <div class="update-meta-box mobile-meta-box">
+                  <div class="meta-row">
+                    <span class="meta-label"><i class="fa-brands fa-android"></i> Type :</span>
+                    <span class="meta-value">Android (.APK)</span>
+                  </div>
+                  <div class="meta-row">
+                    <span class="meta-label"><i class="fa-solid fa-arrows-rotate"></i> MAJ :</span>
+                    <span class="meta-value" data-file-key="ms-pharm.apk" style="color: var(--primary);">14/09/2026</span>
+                  </div>
+                </div>
+                <a href="https://firebasestorage.googleapis.com/v0/b/mspharm-28a52.appspot.com/o/ms-pharm.apk?alt=media" 
+                   class="btn btn-primary btn-mobile-dl" 
+                   download="ms-pharm.apk">
+                  <i class="fa-solid fa-download"></i> Télécharger ms-pharm.apk
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -823,14 +1092,14 @@
           </div>
 
           <!-- Item 11: MY-STOCK API & SCAN IA -->
-          <div class="utility-card" data-category="runtime" data-tags="api scan ia gemini factures mystock intelligence artificielle access mdb serveur">
+          <div class="utility-card" data-category="runtime" data-tags="api scan ia gemini factures mystock intelligence artificielle access mdb serveur vss sauvegarde drive">
             <div class="utility-header">
               <div class="utility-icon" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(2, 132, 199, 0.15)); color: #6366f1;">
                 <i class="fa-solid fa-brain"></i>
               </div>
               <div class="utility-details">
                 <h4>MY-STOCK API & SCAN IA</h4>
-                <p>Gestionnaire local Access (.mdb) & Moteur IA Google Gemini pour la reconnaissance et l'intégration des factures.</p>
+                <p>Serveur API REST local (Port 5001), scan factures par IA Gemini, sauvegardes à chaud VSS et synchronisation cloud Google Drive.</p>
               </div>
             </div>
             <div class="utility-footer">
@@ -941,6 +1210,8 @@
             <li><a href="#logiciels"><i class="fa-solid fa-chevron-right" style="font-size:0.7rem;"></i> MY-STOCK Commercial</a></li>
             <li><a href="#logiciels"><i class="fa-solid fa-chevron-right" style="font-size:0.7rem;"></i> MS-MEDIC Laboratoire</a></li>
             <li><a href="https://firebasestorage.googleapis.com/v0/b/mspharm-28a52.appspot.com/o/Setup_MYSTOCK_API.exe?alt=media" download><i class="fa-solid fa-chevron-right" style="font-size:0.7rem;"></i> MY-STOCK API & SCAN-IA</a></li>
+            <li><a href="https://firebasestorage.googleapis.com/v0/b/mspharm-28a52.appspot.com/o/ms-pharm.apk?alt=media" download="ms-pharm.apk"><i class="fa-solid fa-chevron-right" style="font-size:0.7rem;"></i> MS-PHARM Mobile (.apk)</a></li>
+            <li><a href="https://firebasestorage.googleapis.com/v0/b/mspharm-28a52.appspot.com/o/MY-STOCK.apk?alt=media" download="MY-STOCK.apk"><i class="fa-solid fa-chevron-right" style="font-size:0.7rem;"></i> MY-STOCK Mobile (.apk)</a></li>
           </ul>
         </div>
 
@@ -979,6 +1250,25 @@
     <button id="backToTopBtn" class="fab-btn fab-top" aria-label="Remonter en haut de page" title="Remonter en haut">
       <i class="fa-solid fa-arrow-up"></i>
     </button>
+  </div>
+
+  <!-- Lightbox Modal for AI Module Screenshots -->
+  <div id="aiImageLightbox" class="ai-lightbox-modal" aria-hidden="true" role="dialog">
+    <div class="ai-lightbox-backdrop" id="aiLightboxBackdrop"></div>
+    <div class="ai-lightbox-container">
+      <div class="ai-lightbox-header">
+        <div class="ai-lightbox-title" id="aiLightboxTitle">
+          <i class="fa-solid fa-feather-pointed"></i> MS-PHARM API & IA
+        </div>
+        <button type="button" class="ai-lightbox-close" id="aiLightboxClose" aria-label="Fermer la fenêtre">✕</button>
+      </div>
+      <div class="ai-lightbox-body">
+        <img id="aiLightboxImg" src="assets/images/api-scan-dashboard.png" alt="Capture d'écran haute résolution" />
+      </div>
+      <div class="ai-lightbox-caption" id="aiLightboxCaption">
+        Tableau de bord principal : Paramètres actifs & synchronisation en temps réel (Port 5001)
+      </div>
+    </div>
   </div>
 
   <!-- Main JavaScript File -->
