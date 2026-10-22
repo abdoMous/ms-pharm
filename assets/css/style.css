@@ -2193,6 +2193,7 @@ img {
    Applications Mobiles Smartphone (MS-PHARM & MY-STOCK)
    ========================================================================== */
 .mobile-apps-section {
+  display: none !important; /* Masqué temporairement jusqu'à nouvel ordre */
   margin-top: 44px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);

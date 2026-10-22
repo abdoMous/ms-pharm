@@ -488,6 +488,7 @@ function initMobileAppsPlacement() {
   const anchorBottom = document.getElementById('mobileAppsAnchorBottom');
 
   if (!container || !anchorTop || !anchorBottom) return;
+  if (container.style.display === 'none' || window.getComputedStyle(container).display === 'none') return;
 
   function updatePosition() {
     const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
